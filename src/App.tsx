@@ -8,40 +8,52 @@ interface IAppProps {
 }
 
 interface IAppState {
-    commonText: string;
-    value: string;
+    temperature: number;
+    type: string
 }
 
 // 华氏温度转摄氏温度
 function convertHuashi2sheshi(huashi: number) {
-    return 5 * (huashi - 32) / 9;
+    return (huashi - 32) * 5 / 9;
 }
 
 // 摄氏温度转华氏温度
 function sheshi2huashi(sheshi: number) {
-    return 9 * (sheshi - 273.15) /5 + 32;
+    return (sheshi * 9 / 5) + 32;
 }
 
 export class App extends React.Component <IAppProps, IAppState> {
     constructor(props: IAppProps) {
         super(props);
         this.state = {
-            value: "",
-            commonText: ""
+            type: "",
+            temperature: 0
         };
     }
 
-    tellMeYouFrom = (e: any) => {
+    huashiChange = (e: any) => {
         this.setState({
-            value: e.target.value
-        });
+            temperature: e.target.value,
+            type: 'huashi'
+        })
+    };
+
+    sheshiChange = (e: any) => {
+        this.setState({
+            temperature: e.target.value,
+            type: 'sheshi'
+        })
     };
 
     render() {
+        const temperature = this.state.temperature;
+        const {type} = this.state;
+        const sheshi = type == "sheshi" ? sheshi2huashi(temperature) : temperature;
+        const huashi = type == "huashi" ? convertHuashi2sheshi(temperature) : temperature;
         return <div className="App">
             <h1>React temperature !</h1>
-            <Temperature title="first" tellMeWhereYouFrom={this.tellMeYouFrom} value={this.state.value}/>
-            <Temperature title="second" tellMeWhereYouFrom={this.tellMeYouFrom} value={this.state.value}/>
+            <Temperature title="华氏" value={sheshi} onTemperatureChange={this.huashiChange} />
+            <Temperature title="摄氏" value={huashi} onTemperatureChange={this.sheshiChange} />
         </div>
     }
 }
