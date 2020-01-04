@@ -19,7 +19,6 @@ export class App extends React.Component <IAppProps, IAppState> {
         })
     }
 
-
     tellMeYouFrom = (e: any) => {
         this.setState({
             commonText: e.target.value
@@ -29,9 +28,7 @@ export class App extends React.Component <IAppProps, IAppState> {
     render() {
         return <div className="App">
             <h1>React temperature !</h1>
-
-            <Temperature title="first" tellMeWhereYouFrom={(e) => this.tellMeYouFrom(e)} value={}/>
-            <Temperature title="second" tellMeWhereYouFrom={(e) => {}} value={this.state.commonText ||""}/>
+            <Temperature title="first" />
         </div>
     }
 }
